@@ -23,8 +23,13 @@ describe('formatCountdown', () => {
     expect(formatCountdown(HOUR)).toBe('in 1 hour 0 min 0 sec')
   })
 
+  it('drops leading zero units', () => {
+    expect(formatCountdown(4 * MINUTE + 31_000)).toBe('in 4 min 31 sec')
+    expect(formatCountdown(5000)).toBe('in 5 sec')
+  })
+
   it('never goes negative', () => {
-    expect(formatCountdown(-5000)).toBe('in 0 hours 0 min 0 sec')
+    expect(formatCountdown(-5000)).toBe('in 0 sec')
   })
 })
 

@@ -25,7 +25,13 @@ export const formatCountdown = (remainingMs: number) => {
   const minutes = Math.floor((remaining % HOUR_MS) / MINUTE_MS)
   const seconds = Math.floor((remaining % MINUTE_MS) / 1000)
 
-  return `in ${pluralize(hours, 'hour')} ${minutes} min ${seconds} sec`
+  const parts = [
+    hours > 0 ? pluralize(hours, 'hour') : '',
+    hours > 0 || minutes > 0 ? `${minutes} min` : '',
+    `${seconds} sec`,
+  ]
+
+  return `in ${parts.filter(Boolean).join(' ')}`
 }
 
 export const formatElapsed = (elapsedMs: number) => {
