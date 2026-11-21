@@ -5,6 +5,7 @@ import { getTrackerState, type TrackerState } from '../lib/tracker'
 import { CountdownCard } from './CountdownCard'
 import { LiveHero } from './LiveHero'
 import { ResultsCard } from './ResultsCard'
+import { RetryMessage } from './RetryMessage'
 import { ScheduleList } from './ScheduleList'
 import { StatusMessage } from './StatusMessage'
 import { UpcomingHero } from './UpcomingHero'
@@ -72,19 +73,7 @@ export function Dashboard({ simulatedNow }: DashboardProps) {
     <>
       {isPending && <StatusMessage title="Loading the schedule" />}
       {isError && !state && (
-        <StatusMessage
-          title="Couldn’t load the schedule"
-          body="The F1 data service didn’t respond."
-          action={
-            <button
-              type="button"
-              onClick={() => void refetch()}
-              className="rounded-pill bg-salmon px-5 py-2.5 text-sm font-bold text-nori"
-            >
-              Try again
-            </button>
-          }
-        />
+        <RetryMessage title="Couldn’t load the schedule" onRetry={() => void refetch()} />
       )}
       {state && <TrackerView state={state} now={now} />}
     </>

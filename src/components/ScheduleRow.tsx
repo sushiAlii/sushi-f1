@@ -2,6 +2,7 @@ import { formatDay, formatTime } from '../lib/time'
 import type { Session } from '../lib/sessions'
 import type { SessionStatus } from '../lib/tracker'
 import { CheckIcon } from './icons'
+import { StatusChip } from './StatusChip'
 
 interface ScheduleRowProps {
   session: Session
@@ -13,18 +14,6 @@ const ROW_STYLES: Record<SessionStatus, string> = {
   upcoming: 'bg-card',
   next: 'relative overflow-hidden bg-raised shadow-plate-rest before:absolute before:inset-y-0 before:left-0 before:w-1.5 before:bg-salmon',
   live: 'relative overflow-hidden bg-raised shadow-plate-rest before:absolute before:inset-y-0 before:left-0 before:w-1.5 before:bg-salmon',
-}
-
-const CHIP_LABELS: Partial<Record<SessionStatus, string>> = {
-  finished: 'Finished',
-  live: 'Live now',
-  next: 'Next up',
-}
-
-const CHIP_STYLES: Partial<Record<SessionStatus, string>> = {
-  finished: 'bg-sage/15 text-sage-deep',
-  live: 'bg-salmon text-nori',
-  next: 'bg-salmon text-nori',
 }
 
 function StatusMark({ status }: { status: SessionStatus }) {
@@ -50,8 +39,6 @@ function StatusMark({ status }: { status: SessionStatus }) {
 }
 
 export function ScheduleRow({ session, status }: ScheduleRowProps) {
-  const chipLabel = CHIP_LABELS[status]
-
   return (
     <li
       className={`flex items-center gap-3.5 rounded-2xl p-4 md:last:odd:col-span-2 lg:last:odd:col-span-1 ${ROW_STYLES[status]}`}
@@ -63,13 +50,7 @@ export function ScheduleRow({ session, status }: ScheduleRowProps) {
           {formatDay(session.start)} · {formatTime(session.start)}
         </p>
       </div>
-      {chipLabel && (
-        <span
-          className={`shrink-0 rounded-pill px-3 py-1 text-xs font-bold ${CHIP_STYLES[status]}`}
-        >
-          {chipLabel}
-        </span>
-      )}
+      {status !== 'upcoming' && <StatusChip status={status} />}
     </li>
   )
 }

@@ -46,3 +46,15 @@ export const FlagIcon = (props: SVGProps<SVGSVGElement>) => (
     <path d="M6 21V4M6 5h11l-2 4 2 4H6" />
   </Icon>
 )
+
+export const ChevronRightIcon = (props: SVGProps<SVGSVGElement>) => (
+  <Icon {...props}>
+    <path d="M9 5l7 7-7 7" />
+  </Icon>
+)
+
+export const ArrowLeftIcon = (props: SVGProps<SVGSVGElement>) => (
+  <Icon {...props}>
+    <path d="M19 12H5M11 6l-6 6 6 6" />
+  </Icon>
+)
