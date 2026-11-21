@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { queryKeys } from '../lib/queryKeys'
 import { getSessionResults } from '../lib/results'
 import type { Session } from '../lib/sessions'
 
@@ -7,7 +8,7 @@ const PENDING_POLL_MS = 3 * 60_000
 
 export const useGetSessionResults = ({ kind, season, round }: Session) =>
   useQuery({
-    queryKey: ['results', season, round, kind],
+    queryKey: queryKeys.results(season, round, kind),
     queryFn: () => getSessionResults({ kind, season, round }),
     staleTime: RESULTS_STALE_MS,
     refetchInterval: ({ state }) => (state.data?.length ? false : PENDING_POLL_MS),
