@@ -4,7 +4,7 @@ import { TimezonePill } from './TimezonePill'
 
 export function AppHeader() {
   return (
-    <header className="flex flex-wrap items-center gap-x-8 gap-y-3 py-5">
+    <header className="flex flex-wrap items-center gap-x-4 gap-y-3 py-5 md:gap-x-8">
       <Link to="/" className="order-1 flex items-center gap-2.5">
         <span className="size-2.5 rounded-full bg-salmon" />
         <span className="font-heading text-xl">Sushi Paddock</span>
