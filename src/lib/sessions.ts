@@ -65,3 +65,37 @@ const toRaceSessions = (race: ApiRace): Session[] =>
 
 export const toSessions = (races: ApiRace[]): Session[] =>
   races.flatMap(toRaceSessions).toSorted((a, b) => a.start - b.start)
+
+export interface Weekend {
+  season: number
+  round: number
+  raceName: string
+  circuitName: string
+  start: number
+  raceStart: number
+  sessions: Session[]
+}
+
+const toWeekend = (sessions: Session[]): Weekend => {
+  const [first] = sessions
+  const race = sessions.find(({ kind }) => kind === 'Race') ?? sessions[sessions.length - 1]
+
+  return {
+    season: first.season,
+    round: first.round,
+    raceName: first.raceName,
+    circuitName: first.circuitName,
+    start: first.start,
+    raceStart: race.start,
+    sessions,
+  }
+}
+
+export const groupWeekends = (sessions: Session[]): Weekend[] => {
+  const byRound = sessions.reduce((groups, session) => {
+    const key = `${session.season}-${session.round}`
+    return groups.set(key, [...(groups.get(key) ?? []), session])
+  }, new Map<string, Session[]>())
+
+  return [...byRound.values()].map(toWeekend)
+}

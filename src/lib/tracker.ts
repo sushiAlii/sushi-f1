@@ -1,4 +1,4 @@
-import type { Session } from './sessions'
+import type { Session, Weekend } from './sessions'
 
 export const LIVE_BUFFER_MS = 30 * 60_000
 export const RESULT_WINDOW_MS = 24 * 60 * 60_000
@@ -11,7 +11,7 @@ export type TrackerState =
   | { kind: 'upcoming'; next: Session; weekend: Session[] }
   | { kind: 'idle' }
 
-const liveUntil = (session: Session) => session.end + LIVE_BUFFER_MS
+export const liveUntil = (session: Session) => session.end + LIVE_BUFFER_MS
 
 const weekendOf = (sessions: Session[], target: Session) =>
   sessions.filter(({ season, round }) => season === target.season && round === target.round)
@@ -50,4 +50,15 @@ export const getSessionStatus = (session: Session, now: number, next?: Session):
   if (now >= liveUntil(session)) return 'finished'
   if (now >= session.start) return 'live'
   return session.id === next?.id ? 'next' : 'upcoming'
+}
+
+export type WeekendStatus = SessionStatus | 'in-progress'
+
+export const getWeekendStatus = (weekend: Weekend, now: number, next?: Weekend): WeekendStatus => {
+  const lastSession = weekend.sessions[weekend.sessions.length - 1]
+
+  if (now >= liveUntil(lastSession)) return 'finished'
+  if (weekend.sessions.some((session) => getSessionStatus(session, now) === 'live')) return 'live'
+  if (now >= weekend.start) return 'in-progress'
+  return weekend.season === next?.season && weekend.round === next.round ? 'next' : 'upcoming'
 }
