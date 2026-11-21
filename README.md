@@ -1,32 +1,45 @@
-# React + TypeScript + Vite
+# Sushi Paddock
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A personal, unofficial F1 session tracker. It answers one question: when is the next session, in **my** local time?
 
-Currently, two official plugins are available:
+Not affiliated with Formula 1 or any racing entity.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## What it shows
 
-## React Compiler
+- **Upcoming**: the next session (practice, sprint, qualifying or race) with its local date and time. A day or more away reads "in 5 days"; under a day reads "in 21 hours 4 min 12 sec".
+- **Live**: when a session is on, "Qualifying is happening now" with start time and elapsed time.
+- **Finished**: the session's results, then the countdown to whatever comes next. If the results haven't been published yet, it says so and checks again every few minutes.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+All times are converted from UTC to your browser's time zone, and the zone is always shown.
 
-## Expanding the Oxlint configuration
+## Data
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+Schedule and results come from [Jolpica-F1](https://github.com/jolpica/jolpica-f1), the open Ergast successor. No API key or account is needed.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+The API gives session start times only, so "live" is estimated from typical session lengths plus a short buffer.
+
+## Development
+
+```sh
+bun install
+bun run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+| Script              | What it does              |
+| ------------------- | ------------------------- |
+| `bun run dev`       | Start the Vite dev server |
+| `bun run build`     | Typecheck and build       |
+| `bun run test`      | Run the Vitest suite      |
+| `bun run lint`      | ESLint                    |
+| `bun run format`    | Prettier                  |
+| `bun run typecheck` | `tsc -b`                  |
+
+To preview a state without waiting for it, pass a simulated clock: `/?now=2026-11-21T04:30:00Z`.
+
+## Stack
+
+Vite, React, TypeScript, Tailwind CSS v4 (design tokens in `src/index.css`), TanStack Router and Query.
+
+## License
+
+MIT
