@@ -15,6 +15,14 @@ Personal, unofficial F1 session tracker: shows the next session in the user's lo
 
 Jolpica-F1 (`https://api.jolpi.ca/ergast/f1`), anonymous, browser-callable. Times are UTC and are converted in the browser. The API has no session end times, so durations are estimated in `src/lib/sessions.ts`, with a live buffer and result window in `src/lib/tracker.ts`.
 
+## Routes
+
+- `/` live tracker (upcoming, live, finished, pending states). Supports `?now=`.
+- `/races` current-season calendar; `/races/$round` one weekend: sessions plus results for finished qualifying, sprint and race (newest first). `round` is parsed to a number; unknown rounds show "Race not found".
+- `/standings` drivers' standings, `/standings?tab=constructors` constructors'. Both show "After round N" from the API.
+- Navigation lives in `AppNav` inside `AppShell` (`__root.tsx`). Active links style via `data-[status=active]` variants, not `activeProps`, because Tailwind utility order let `border-transparent` win.
+- Practice sessions never have results (Jolpica has none; OpenF1 blocks API access during live sessions), so they show times only.
+
 ## Code style
 
 - No comments. Code should be self-descriptive through naming; extract a well-named function or variable instead.

@@ -10,6 +10,9 @@ Not affiliated with Formula 1 or any racing entity.
 - **Live**: when a session is on, "Qualifying is happening now" with start time and elapsed time.
 - **Finished**: the session's results, then the countdown to whatever comes next. If the results haven't been published yet, it says so and checks again every few minutes.
 
+- **Races**: the season calendar. Open any round to see its sessions and the results of its qualifying, sprint and race.
+- **Standings**: the current drivers' and constructors' championship tables.
+
 All times are converted from UTC to your browser's time zone, and the zone is always shown.
 
 ## Data
