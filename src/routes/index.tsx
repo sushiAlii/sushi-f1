@@ -1,13 +1,22 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Dashboard } from '../components/Dashboard'
+
+interface HomeSearch {
+  now?: string
+}
 
 export const Route = createFileRoute('/')({
+  validateSearch: (search: Record<string, unknown>): HomeSearch => ({
+    now:
+      typeof search.now === 'string' && !Number.isNaN(Date.parse(search.now))
+        ? search.now
+        : undefined,
+  }),
   component: HomePage,
 })
 
 function HomePage() {
-  return (
-    <main className="mx-auto max-w-content px-5 py-10">
-      <h1 className="font-heading text-4xl">Sushi Paddock</h1>
-    </main>
-  )
+  const { now } = Route.useSearch()
+
+  return <Dashboard simulatedNow={now ? Date.parse(now) : undefined} />
 }
