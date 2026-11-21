@@ -48,5 +48,8 @@ const LOADERS: Partial<Record<SessionKind, ResultLoader>> = {
   Race: loadRaceLike('results', 'Results'),
 }
 
-export const getSessionResults = async ({ kind, season, round }: Session) =>
-  (await LOADERS[kind]?.(season, round)) ?? []
+export const getSessionResults = async ({
+  kind,
+  season,
+  round,
+}: Pick<Session, 'kind' | 'season' | 'round'>) => (await LOADERS[kind]?.(season, round)) ?? []
