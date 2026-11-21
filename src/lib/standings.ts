@@ -1,5 +1,7 @@
 import type { ApiConstructorStanding, ApiDriverStanding, ApiStandings } from './jolpica'
 
+export type StandingsTab = 'drivers' | 'constructors'
+
 export interface Standings<TRow> {
   round: number
   rows: TRow[]

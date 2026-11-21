@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StandingsRouteImport } from './routes/standings'
 import { Route as RacesIndexRouteImport } from './routes/races/index'
 import { Route as RacesRoundRouteImport } from './routes/races/$round'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StandingsRoute = StandingsRouteImport.update({
+  id: '/standings',
+  path: '/standings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RacesIndexRoute = RacesIndexRouteImport.update({
@@ -31,30 +37,34 @@ const RacesRoundRoute = RacesRoundRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/standings': typeof StandingsRoute
   '/races/$round': typeof RacesRoundRoute
   '/races/': typeof RacesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/standings': typeof StandingsRoute
   '/races/$round': typeof RacesRoundRoute
   '/races': typeof RacesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/standings': typeof StandingsRoute
   '/races/$round': typeof RacesRoundRoute
   '/races/': typeof RacesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/races/$round' | '/races/'
+  fullPaths: '/' | '/standings' | '/races/$round' | '/races/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/races/$round' | '/races'
-  id: '__root__' | '/' | '/races/$round' | '/races/'
+  to: '/' | '/standings' | '/races/$round' | '/races'
+  id: '__root__' | '/' | '/standings' | '/races/$round' | '/races/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  StandingsRoute: typeof StandingsRoute
   RacesRoundRoute: typeof RacesRoundRoute
   RacesIndexRoute: typeof RacesIndexRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/standings': {
+      id: '/standings'
+      path: '/standings'
+      fullPath: '/standings'
+      preLoaderRoute: typeof StandingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/races/': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  StandingsRoute: StandingsRoute,
   RacesRoundRoute: RacesRoundRoute,
   RacesIndexRoute: RacesIndexRoute,
 }
