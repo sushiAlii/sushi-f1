@@ -22,8 +22,9 @@ export default tseslint.config(
       ecmaVersion: 2023,
       globals: globals.browser,
     },
-    rules: {
-      'react-refresh/only-export-components': ['warn', { allowExportNames: ['Route'] }],
-    },
+  },
+  {
+    files: ['src/routes/**/*.tsx'],
+    rules: { 'react-refresh/only-export-components': 'off' },
   },
 )
