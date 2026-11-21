@@ -1,5 +1,6 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { Suspense, lazy } from 'react'
+import { AppShell } from '../components/AppShell'
 
 const QueryDevtools = import.meta.env.DEV
   ? lazy(() =>
@@ -16,7 +17,9 @@ export const Route = createRootRoute({
 function RootLayout() {
   return (
     <>
-      <Outlet />
+      <AppShell>
+        <Outlet />
+      </AppShell>
       <Suspense>
         <QueryDevtools buttonPosition="bottom-left" />
       </Suspense>

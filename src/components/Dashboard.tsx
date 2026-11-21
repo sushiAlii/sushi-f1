@@ -2,7 +2,6 @@ import type { ReactNode } from 'react'
 import { useGetSchedule } from '../hooks/useGetSchedule'
 import { useNow } from '../hooks/useNow'
 import { getTrackerState, type TrackerState } from '../lib/tracker'
-import { AppHeader } from './AppHeader'
 import { CountdownCard } from './CountdownCard'
 import { LiveHero } from './LiveHero'
 import { ResultsCard } from './ResultsCard'
@@ -70,30 +69,24 @@ export function Dashboard({ simulatedNow }: DashboardProps) {
   const state = sessions && getTrackerState(sessions, now)
 
   return (
-    <div className="mx-auto flex min-h-dvh max-w-content flex-col px-5 md:px-8 lg:px-12">
-      <AppHeader />
-      <main className="flex flex-1 flex-col gap-6 pb-10">
-        {isPending && <StatusMessage title="Loading the schedule" />}
-        {isError && !state && (
-          <StatusMessage
-            title="Couldn’t load the schedule"
-            body="The F1 data service didn’t respond."
-            action={
-              <button
-                type="button"
-                onClick={() => void refetch()}
-                className="rounded-pill bg-salmon px-5 py-2.5 text-sm font-bold text-nori"
-              >
-                Try again
-              </button>
-            }
-          />
-        )}
-        {state && <TrackerView state={state} now={now} />}
-      </main>
-      <footer className="pb-8 text-center text-xs text-ink-faint">
-        Times converted to your local timezone
-      </footer>
-    </div>
+    <>
+      {isPending && <StatusMessage title="Loading the schedule" />}
+      {isError && !state && (
+        <StatusMessage
+          title="Couldn’t load the schedule"
+          body="The F1 data service didn’t respond."
+          action={
+            <button
+              type="button"
+              onClick={() => void refetch()}
+              className="rounded-pill bg-salmon px-5 py-2.5 text-sm font-bold text-nori"
+            >
+              Try again
+            </button>
+          }
+        />
+      )}
+      {state && <TrackerView state={state} now={now} />}
+    </>
   )
 }
